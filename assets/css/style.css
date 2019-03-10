@@ -1,0 +1,88 @@
+body {
+    background-image: url(../images/pink_rice.png);
+    color: #5b0a78;
+}
+
+.header-container {
+    margin: 50px;
+    text-align: center;
+    font-family: 'Great Vibes', cursive;
+    font-size: 50px;
+    /* border: 1px dotted purple; */
+}
+
+.game-container {
+    margin: 0px 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    /* border: 1px dotted purple; */
+    grid-gap: 5px;
+    /* text-align: center; */
+}
+
+.grid-item {
+    font-family: 'Laila', serif;
+    font-size: 20px;
+    /* border: 1px dotted purple; */
+}
+
+/* aka cell 1 */
+#me {
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 2;
+    text-align: center;
+}
+
+/* aka cell 2 */
+#message {
+    grid-column: 2 / span 2;
+    grid-row: 1 / span 1;
+    text-align: center;
+}
+
+/* aka cell 3 */
+#defender {
+    grid-column: 4 / span 1;
+    grid-row: 1 / span 2;
+    text-align: center;
+}
+
+/* aka cell 4 */
+#attackBtn { 
+    grid-column: 2 / span 1;
+    grid-row: 2 / span 1;
+    text-align: right;
+}
+
+/* aka cell 5 */
+#resetBtn {
+    grid-column: 3 / span 1;
+    grid-row: 2 / span 1;
+}
+
+.player-container {
+    margin: auto;
+    margin-top: 50px;
+    width: 615px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    /* border: 1px dotted purple; */
+    grid-gap: 5px;
+}
+
+.playerCell {
+    background-color: #5b0a78;
+    color: white;
+    font-family: 'Laila', serif;
+    font-size: 20px;
+    text-align: center;
+    width: 150px;
+    padding-top: 5px;
+}
+
+img {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
