@@ -5,43 +5,48 @@ function getRandom(max, min) {
 
 let characterList = document.querySelectorAll('.playerCell');
 
-// let me = characters[name]
-// let defender = characters[name]
-
 // character set
 let characters = {
-    'kris': {
-        name: 'kris',
+    'Kris': {
+        name: 'Kris',
         health: getRandom(20, 10),
         strength: getRandom(5, 1),
         firstStrength: [], // placholder to capture the initial value of the character's strength
     },
 
-    'kim': {
-        name: 'kim',
+    'Kim': {
+        name: 'Kim',
         health: getRandom(20, 10),
         strength: getRandom(5, 1),
         firstStrength: [],
     },
 
-    'kourtney': {
-        name: 'kourtney',
+    'Kourtney': {
+        name: 'Kourtney',
         health: getRandom(20, 10),
         strength: getRandom(5, 1),
         firstStrength: [],
     },
 
-    'khloe': {
-        name: 'khloe',
+    'Khloe': {
+        name: 'Khloe',
         health: getRandom(20, 10),
         strength: getRandom(5, 1),
         firstStrength: [],
     },
 }
 
+let me = characters['Kris']
+let defender = characters['Kim']
+
+function chooseMe() {
+    // move chosen player to correct position
+}
+
 function attack() {
     defender.health -= me.strength
     me.strength += parseInt(me.firstStrength)
+    console.log(me.strength)
 }
 
 function counterAttack() {
@@ -50,40 +55,42 @@ function counterAttack() {
 
 function attackRound() {
     attack()
-    // counterAttack()
-    let me = 'kris'
-    let defender = "kim"
-    document.querySelector('#krisHS').innerHTML = `$${me.health}`
-    document.querySelector('#kimHS').innerHTML = `$${defender.health}`
+    counterAttack()
+    document.querySelector('#krisHS').innerHTML = `$ ${me.health}`
+    document.querySelector('#kimHS').innerHTML = `$ ${defender.health}`
     document.querySelector('#message').innerHTML =
-        `You attacked {defender} which cost her {this.health}.She attacked you back, which cost you {this.health}.`
+        `You attacked ${defender.name} which cost her $${me.strength}.<br />
+        She attacked you back, which cost you $${defender.strength}.`
 }
 
 //***************** GAME STARTS ***************************/
 
 // listens for clicks on any of the 4 characters on the page
 // got this from stack overflow https://stackoverflow.com/questions/40956717/how-to-addeventlistener-to-multiple-elements-in-a-single-line)
-characterList.forEach(function(elem) {
-    elem.addEventListener("click", function() {
+characterList.forEach(function (elem) {
+    elem.addEventListener("click", function () {
         alert('hello world')
+        console.log(elem)
     });
 });
 
 
 function init() {
-    characters.kris.health
-    characters.kris.firstStrength.push(characters.kris.strength)
-    characters.kim.health
-    characters.kim.firstStrength.push(characters.kim.strength)
-    characters.kourtney.health
-    characters.kourtney.firstStrength.push(characters.kourtney.strength)
-    characters.khloe.health
-    characters.khloe.firstStrength.push(characters.khloe.strength)
+    characters.Kris.health
+    characters.Kris.firstStrength.push(characters.Kris.strength)
+    console.log(characters.Kris.firstStrength)
+    characters.Kim.health
+    characters.Kim.firstStrength.push(characters.Kim.strength)
+    console.log(characters.Kim.firstStrength)
+    characters.Kourtney.health
+    characters.Kourtney.firstStrength.push(characters.Kourtney.strength)
+    characters.Khloe.health
+    characters.Khloe.firstStrength.push(characters.Khloe.strength)
     document.querySelector('#message').innerHTML = 'Click on an image to choose your character'
-    document.querySelector('#krisHS').innerHTML = `$ ${characters.kris.health}`
-    document.querySelector('#kimHS').innerHTML = `$ ${characters.kim.health}`
-    document.querySelector('#kourtneyHS').innerHTML = `$ ${characters.kourtney.health}`
-    document.querySelector('#khloeHS').innerHTML = `$ ${characters.khloe.health}`
+    document.querySelector('#krisHS').innerHTML = `$ ${characters.Kris.health}`
+    document.querySelector('#kimHS').innerHTML = `$ ${characters.Kim.health}`
+    document.querySelector('#kourtneyHS').innerHTML = `$ ${characters.Kourtney.health}`
+    document.querySelector('#khloeHS').innerHTML = `$ ${characters.Khloe.health}`
 }
 
 init()
