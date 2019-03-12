@@ -40,8 +40,8 @@ let characters = {
 
 let characterList = document.querySelectorAll('.playerCell')
 let isOver
-let me = characters[name]
-let defender = characters['Kim']
+let me = ""
+let defender = ""
 
 
 const renderCharacters = _ => {
@@ -114,6 +114,7 @@ function attackRound() {
 
 const init = _ => {
     isOver = false
+    // hide attack and reset buttons
     characters.Kris.health
     characters.Kris.firstStrength.push(characters.Kris.strength)
     characters.Kim.health
@@ -123,15 +124,40 @@ const init = _ => {
     characters.Khloe.health
     characters.Khloe.firstStrength.push(characters.Khloe.strength)
     document.querySelector('#message').innerHTML = 'Click on an image to choose your character'
-    
+
     renderCharacters()
 }
 
+// thanks to Katie for helping me with this section
 characterList.forEach(function (elem) {
     elem.addEventListener("click", function (event) {
-        me = characters[elem.id]
-        renderMe()
-    })
-})
+        //Check if there is me yet and if not then update me to clicked
+        if (me === "") {
+            //set me equal
+            me = characters[elem.id];
+            //console logged to make sure it picked a character
+            console.log(me);
+            //Run render function
+            renderMe();
+            //Updated html because it looks cool
+            document.querySelector("#message").innerHTML = "Pick your opponent!";
+            //If no defender yet -- set second cicked as defender
+        } else if (defender === "") {
+            //set defender equal
+            defender = characters[elem.id];
+            //run render function
+            renderDefender();
+            // show attack button
+            //update HTML for fun
+            document.querySelector("#message").innerHTML = "Let the battle begin!";
+            
+
+            //Function to update character rendered on page
+
+            //Change src, name, health (empty)
+        }
+    });
+});
+
 
 init()
