@@ -89,13 +89,41 @@ const renderDefender = _ => {
     `
 }
 
-// still working on getting the attack and reset buttons to show/hide
+// shows attack button on the page
 const renderAttackBtn = _ => {
-    // insert code to add button to page
+    document.querySelector('#attackBtn').innerHTML = `<button type="button" class="btn btn-danger" id="attack" onclick="attackRound()">Attack</button>`
 }
 
+// shows reset button on the page
 const renderResetBtn = _ => {
-    // insert code to add button to page
+    document.querySelector('#resetBtn').innerHTML =`<button type="button" class="btn btn-secondary" id="reset" onclick="reset()">Reset</button>`
+}
+
+// clears buttons from the page
+const clearBtns = _ => {
+    document.querySelector('#attackBtn').innerHTML = ``
+    document.querySelector('#resetBtn').innerHTML = ``
+}
+
+// not sure why the reset function is not working - it does not reset all of the health and strength values with new random numbers - better to refresh the page
+let reset = _ => {
+    isOver = false
+    me = ""
+    defender = ""
+    characters.Kris.health
+    characters.Kris.firstStrength.push(characters.Kris.strength)
+    characters.Kim.health
+    characters.Kim.firstStrength.push(characters.Kim.strength)
+    characters.Kourtney.health
+    characters.Kourtney.firstStrength.push(characters.Kourtney.strength)
+    characters.Khloe.health
+    characters.Khloe.firstStrength.push(characters.Khloe.strength)
+    document.querySelector('#message').innerHTML = 'Click on an image to choose your character'
+    document.querySelector('#me').innerHTML = ''
+    document.querySelector('#defender').innerHTML = ''
+
+    clearBtns()
+    renderCharacters()
 }
 
 // function for when the user attacks the defender
@@ -130,18 +158,23 @@ function attackRound() {
         $${defender.health}
         `
         document.querySelector('#message').innerHTML =
-            `You attacked ${defender.name} which cost her $${me.strength - me.firstStrength}.<br />
+        `You attacked ${defender.name} which cost her $${me.strength - me.firstStrength}.<br />
         She attacked you back, which cost you $${defender.strength}.`
-
-        // it always takes an extra click for the defeat / game over messages to display
+        // condition: if the defender wins
     } else if (me.health <= 0 && defender.health > 0) {
+        // it always takes an extra click for the defeat / game over messages to display
         document.querySelector('#message').innerHTML = `GAME OVER! ${defender.name} has defeated you.`
         isOver = true
+        renderResetBtn()
+        // condition: if the 'me' character wins
     } else if (me.health > 0 && defender.health <= 0) {
         document.getElementById('defender').innerHTML = ``
-        // want to insert some logic here to recognize if there are still enemies left to select
-        // also need to re-run the event listener that allows me to select a new defender
+        // currently there is no logic here to recognize if there are still enemies left to select
         document.querySelector('#message').innerHTML = `You have defeated ${defender.name}.<br /> Please choose another defender.`
+        // set value of defender back to null so that a new one can be selected
+        defender = ""
+        // run the choose players function again to select a new defender
+        choosePlayers()
     }
 }
 
@@ -149,7 +182,6 @@ const init = _ => {
     isOver = false
     document.querySelector('#me').innerHTML = ''
     document.querySelector('#defender').innerHTML = ''
-    // hide attack and reset buttons
     characters.Kris.health
     characters.Kris.firstStrength.push(characters.Kris.strength)
     characters.Kim.health
@@ -161,11 +193,13 @@ const init = _ => {
     document.querySelector('#message').innerHTML = 'Click on an image to choose your character'
 
     renderCharacters()
+
 }
 
 // big shoutout to Katie for helping me with this section
 // i wanted to use a single event listener for all four characters
 // i copied the forEach syntax here from a stack overflow question/answer
+let choosePlayers = _ => {
 characterList.forEach(function (elem) {
     elem.addEventListener("click", function (event) {
         //Check if there is me yet and if not then update me to clicked
@@ -194,9 +228,12 @@ characterList.forEach(function (elem) {
             //update HTML for fun
             document.querySelector("#message").innerHTML = "Let the battle begin!"
             document.getElementById(defenderDiv).innerHTML = ``
+            renderAttackBtn()
         }
     });
 });
+}
 
+choosePlayers()
 
 init()
