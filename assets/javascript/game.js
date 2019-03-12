@@ -4,11 +4,13 @@ function getRandom(max, min) {
 }
 
 // character set
+// my calculations make it difficult for the defender to ever win
+// if you want the defender to win, choose Kris as the defender as her strength is set higher
 let characters = {
     'Kris': {
         name: 'Kris',
         health: getRandom(200, 100),
-        strength: getRandom(20, 1),
+        strength: getRandom(40, 10),
         firstStrength: [], // placholder to capture the initial value of the character's strength
         image: '<img src="./assets/images/kris.jpg">'
     },
@@ -38,12 +40,13 @@ let characters = {
     },
 }
 
+// this is for the event listener to select players
 let characterList = document.querySelectorAll('.playerCell')
 let isOver
 let me = ""
 let defender = ""
 
-
+// renders all the players on the page
 const renderCharacters = _ => {
     document.querySelector('#Kris').innerHTML = `
     ${characters.Kris.name} <br />
@@ -68,6 +71,7 @@ const renderCharacters = _ => {
     `
 }
 
+// this is the player you choose to play as
 const renderMe = _ => {
     document.querySelector('#me').innerHTML = `
     ${me.name} <br />
@@ -75,6 +79,8 @@ const renderMe = _ => {
     $${me.health}
     `
 }
+
+// this is the player you select as the defender
 const renderDefender = _ => {
     document.querySelector('#defender').innerHTML = `
     ${defender.name} <br />
@@ -83,6 +89,7 @@ const renderDefender = _ => {
     `
 }
 
+// still working on getting the attack and reset buttons to show/hide
 const renderAttackBtn = _ => {
     // insert code to add button to page
 }
@@ -91,37 +98,57 @@ const renderResetBtn = _ => {
     // insert code to add button to page
 }
 
+// function for when the user attacks the defender
+// looking at the sample game, the 'me' player's strengh increases with every attack
+// it increases by the orignal strength value that is randomly generated at the beginning of the game
+// i capture that amount in the init function and store it in the object as firstStrength
 function attack() {
     defender.health -= me.strength
     me.strength += parseInt(me.firstStrength)
-    console.log(me.strength)
 }
 
+// function for when the defender counter attacks
+// her strength value does not change (which is why it's hard for the defender to win)
 function counterAttack() {
     me.health -= defender.strength
 }
 
+// this is the core game logic
+// this is triggered when the attack button is clicked
 function attackRound() {
-    attack()
-    counterAttack()
-    document.querySelector('#me').innerHTML = `
-    ${me.name} <br />
-    ${me.image} <br />
-    $${me.health}
-    `
-    document.querySelector('#defender').innerHTML = `
-    ${defender.name} <br />
-    ${defender.image} <br />
-    $${defender.health}
-    `
-    document.querySelector('#message').innerHTML =
-        `You attacked ${defender.name} which cost her $${me.strength - me.firstStrength}.<br />
+    if (me.health > 0 && defender.health > 0) {
+        attack()
+        counterAttack()
+        document.querySelector('#me').innerHTML = `
+        ${me.name} <br />
+        ${me.image} <br />
+        $${me.health}
+        `
+        document.querySelector('#defender').innerHTML = `
+        ${defender.name} <br />
+        ${defender.image} <br />
+        $${defender.health}
+        `
+        document.querySelector('#message').innerHTML =
+            `You attacked ${defender.name} which cost her $${me.strength - me.firstStrength}.<br />
         She attacked you back, which cost you $${defender.strength}.`
-}
 
+        // it always takes an extra click for the defeat / game over messages to display
+    } else if (me.health <= 0 && defender.health > 0) {
+        document.querySelector('#message').innerHTML = `GAME OVER! ${defender.name} has defeated you.`
+        isOver = true
+    } else if (me.health > 0 && defender.health <= 0) {
+        document.getElementById('defender').innerHTML = ``
+        // want to insert some logic here to recognize if there are still enemies left to select
+        // also need to re-run the event listener that allows me to select a new defender
+        document.querySelector('#message').innerHTML = `You have defeated ${defender.name}.<br /> Please choose another defender.`
+    }
+}
 
 const init = _ => {
     isOver = false
+    document.querySelector('#me').innerHTML = ''
+    document.querySelector('#defender').innerHTML = ''
     // hide attack and reset buttons
     characters.Kris.health
     characters.Kris.firstStrength.push(characters.Kris.strength)
@@ -136,7 +163,9 @@ const init = _ => {
     renderCharacters()
 }
 
-// thanks to Katie for helping me with this section
+// big shoutout to Katie for helping me with this section
+// i wanted to use a single event listener for all four characters
+// i copied the forEach syntax here from a stack overflow question/answer
 characterList.forEach(function (elem) {
     elem.addEventListener("click", function (event) {
         //Check if there is me yet and if not then update me to clicked
@@ -144,7 +173,7 @@ characterList.forEach(function (elem) {
             //set me equal
             me = characters[elem.id]
             //Assign to grab element ID 
-      meDiv = me.name;
+            meDiv = me.name;
             //console logged to make sure it picked a character
             console.log(me)
             //Run render function
@@ -154,7 +183,7 @@ characterList.forEach(function (elem) {
             //Update element by ID to empty 
             document.getElementById(meDiv).innerHTML = ``
             //If no defender yet -- set second cicked as defender
-            } else if (defender === "") {
+        } else if (defender === "") {
             //set defender equal
             defender = characters[elem.id]
             //Assign to grab element ID
@@ -165,11 +194,6 @@ characterList.forEach(function (elem) {
             //update HTML for fun
             document.querySelector("#message").innerHTML = "Let the battle begin!"
             document.getElementById(defenderDiv).innerHTML = ``
-
-
-            //Function to update character rendered on page
-
-            //Change src, name, health (empty)
         }
     });
 });
