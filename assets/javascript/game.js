@@ -83,6 +83,14 @@ const renderDefender = _ => {
     `
 }
 
+const renderAttackBtn = _ => {
+    // insert code to add button to page
+}
+
+const renderResetBtn = _ => {
+    // insert code to add button to page
+}
+
 function attack() {
     defender.health -= me.strength
     me.strength += parseInt(me.firstStrength)
@@ -134,23 +142,30 @@ characterList.forEach(function (elem) {
         //Check if there is me yet and if not then update me to clicked
         if (me === "") {
             //set me equal
-            me = characters[elem.id];
+            me = characters[elem.id]
+            //Assign to grab element ID 
+      meDiv = me.name;
             //console logged to make sure it picked a character
-            console.log(me);
+            console.log(me)
             //Run render function
-            renderMe();
+            renderMe()
             //Updated html because it looks cool
-            document.querySelector("#message").innerHTML = "Pick your opponent!";
+            document.querySelector("#message").innerHTML = "Pick your opponent!"
+            //Update element by ID to empty 
+            document.getElementById(meDiv).innerHTML = ``
             //If no defender yet -- set second cicked as defender
-        } else if (defender === "") {
+            } else if (defender === "") {
             //set defender equal
-            defender = characters[elem.id];
+            defender = characters[elem.id]
+            //Assign to grab element ID
+            defenderDiv = defender.name
             //run render function
-            renderDefender();
+            renderDefender()
             // show attack button
             //update HTML for fun
-            document.querySelector("#message").innerHTML = "Let the battle begin!";
-            
+            document.querySelector("#message").innerHTML = "Let the battle begin!"
+            document.getElementById(defenderDiv).innerHTML = ``
+
 
             //Function to update character rendered on page
 
